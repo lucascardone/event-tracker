@@ -1,0 +1,14 @@
+__pycache__/
+logs/
+media/
+*.pyc
+*.pyo
+*.sqlite3
+config.yaml
+celerybeat-schedule
+gunicorn_config.py
+venv/
+log/*
+/.idea
+.venv/
+.env

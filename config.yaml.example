@@ -1,0 +1,7 @@
+db:
+  default:
+    host: 'localhost'
+    name: 'marcaciones'
+    user: ''
+    passwd: ''
+    port: ''
