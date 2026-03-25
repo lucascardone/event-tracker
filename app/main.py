@@ -10,9 +10,12 @@ from app.events.model import Base
 from app.events.repository import EventRepository
 from app.events.schemas import EventListResponse, EventResponse, FinishRequest, StartRequest
 
-# ── Base de datos ──────────────────────────────────────────
 
-engine = create_async_engine(settings.database_url, pool_pre_ping=True)
+engine = create_async_engine(
+    settings.database_url,
+    pool_pre_ping=True,
+    connect_args=settings.connect_args
+)
 AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
 
@@ -21,7 +24,6 @@ async def get_db():
         yield session
 
 
-# ── Ciclo de vida de la app ────────────────────────────────
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -35,13 +37,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Event Tracker", lifespan=lifespan)
 
 
-# ── Dependencias ───────────────────────────────────────────
 
 def get_repo(db: AsyncSession = Depends(get_db)) -> EventRepository:
     return EventRepository(db)
 
 
-# ── Rutas ──────────────────────────────────────────────────
 
 @app.post("/events/start", response_model=EventResponse, status_code=201)
 async def start_event(

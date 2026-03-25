@@ -12,8 +12,7 @@ class Settings:
         f"postgresql+asyncpg://{_db['user']}:{_db['passwd']}"
         f"@{_db['host']}:{_db['port']}/{_db['name']}"
     )
-    redis_url: str = _raw.get("redis_url", "redis://localhost:6379/0")
-    redis_ttl_seconds: int = _raw.get("redis_ttl_seconds", 86400)
+    connect_args: dict = {"statement_cache_size": 0}
 
 
 settings = Settings()
